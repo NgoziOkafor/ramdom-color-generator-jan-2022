@@ -1,18 +1,20 @@
 import chalk from 'chalk';
+import randomColor from 'randomcolor';
 
 function generateRandomColor() {
   const randomNumbers = '0123456789abcdef';
 
-  let randomColor = '#';
+  let generatedRandomColor = '#';
   for (let i = 0; i < 6; i++) {
     const randomHexColor = Math.floor(Math.random() * randomNumbers.length);
-    randomColor += randomNumbers[randomHexColor];
+    generatedRandomColor += randomNumbers[randomHexColor];
   }
-  return randomColor;
+  return generatedRandomColor;
 }
 const hexColor = generateRandomColor();
 
-const colorBox = `###############################
+if (!process.argv[2]) {
+  const colorBox = `###############################
 ###############################
 ###############################
 ######                    #####
@@ -22,4 +24,42 @@ const colorBox = `###############################
 ###############################
 ###############################`;
 
-console.log(chalk.hex(hexColor)(colorBox));
+  console.log(chalk.hex(hexColor)(colorBox));
+} else if (process.argv.length >= 2) {
+  if (process.argv[2] && process.argv[3]) {
+    const colorHue = process.argv[2];
+    const colorLuminosity = process.argv[3];
+    const hueColorHashes = randomColor({
+      luminosity: colorLuminosity,
+      hue: colorHue,
+    });
+
+    const colorBoxHashes = `###############################
+###############################
+###############################
+######                    #####
+######   (${hueColorHashes})        #####
+######                    #####
+###############################
+###############################
+###############################`;
+
+    console.log(chalk.hex(hueColorHashes)(colorBoxHashes));
+  } else {
+    const colorHue = process.argv[2];
+    const hueColorHashes = randomColor({
+      hue: colorHue,
+    });
+    const colorBoxHashes = `###############################
+###############################
+###############################
+######                    #####
+######   (${hueColorHashes})        #####
+######                    #####
+###############################
+###############################
+###############################`;
+
+    console.log(chalk.hex(hueColorHashes)(colorBoxHashes));
+  }
+}
