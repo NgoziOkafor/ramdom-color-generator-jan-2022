@@ -59,7 +59,6 @@ if (!process.argv[2]) {
 ###############################
 ###############################
 ###############################`;
-
     console.log(chalk.hex(hueColorHashes)(colorBoxHashes));
   }
 }
